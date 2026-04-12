@@ -27,11 +27,11 @@ Toolroot.maxsize(600, 300)
 Toolroot.minsize(600, 300)
 Toolroot.iconbitmap(resource_path("ICO.ico"))
 Toolroot.update()
-Toolroot.config(bg="#101010")
+Toolroot.config(bg="#000000")
 Toolroot.columnconfigure(1, weight=1)
 GameDir, LanguageSettings_2_Path, LanguageDir, ModDir = "", "", "", ""
 Font = ("黑体", 14)
-bg = "#2F2F2F"
+bg = "#202020"
 green_fg = "green"
 red_fg = "red"
 fg = "white"
@@ -98,9 +98,9 @@ def GetFile(Frame, Combobox):
     else:
         text.config(text=f"更改成功，已选择:{selected}", fg=green_fg)
         with open(LanguageSettings_2_Path, "w", encoding="utf-8") as f:
-            f.writelines("{")
-            f.writelines(f" \"codeName\": \"{selected}\",")
-            f.writelines(" \"custom\": true")
+            f.writelines("{\n")
+            f.writelines(f" \"codeName\": \"{selected}\",\n")
+            f.writelines(" \"custom\": true\n")
             f.writelines("}")
 
 
@@ -108,9 +108,9 @@ def GetFile(Frame, Combobox):
 # 定义一键汉化
 def Chines():
     with open(LanguageSettings_2_Path, "w", encoding="utf-8") as f:
-        f.writelines("{")
-        f.writelines(" \"codeName\": \"CN\",")
-        f.writelines(" \"custom\": true")
+        f.writelines("{\n")
+        f.writelines(" \"codeName\": \"CN\",\n")
+        f.writelines(" \"custom\": true\n")
         f.writelines("}")
     try:    
         with zipfile.ZipFile(resource_path("SFS_Chinese.zip"), "r") as zf:
