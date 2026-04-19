@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFS Chinese - Spaceflight Simulator 汉化项目</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
@@ -21,13 +22,7 @@
             --status-active: #22c55e;
             --status-archived: #6b7280;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Sora', sans-serif;
             background: var(--bg-primary);
@@ -35,754 +30,151 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
-
         .stars-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
         }
-
         .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
         }
-
         .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
+            position: absolute; background: white; border-radius: 50%;
             animation: twinkle var(--duration) ease-in-out infinite;
             opacity: var(--opacity);
         }
-
         @keyframes twinkle {
             0%, 100% { opacity: var(--opacity); transform: scale(1); }
             50% { opacity: 0.2; transform: scale(0.8); }
         }
-
         .orbit {
-            position: fixed;
-            border: 1px solid rgba(0, 217, 255, 0.1);
-            border-radius: 50%;
-            z-index: -1;
-            animation: rotate 60s linear infinite;
+            position: fixed; border: 1px solid rgba(0, 217, 255, 0.1); border-radius: 50%;
+            z-index: -1; animation: rotate 60s linear infinite;
         }
-
-        .orbit-1 {
-            width: 600px;
-            height: 600px;
-            top: -200px;
-            right: -200px;
-        }
-
-        .orbit-2 {
-            width: 400px;
-            height: 400px;
-            bottom: -100px;
-            left: -100px;
-            animation-direction: reverse;
-            animation-duration: 40s;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
+        .orbit-1 { width: 600px; height: 600px; top: -200px; right: -200px; }
+        .orbit-2 { width: 400px; height: 400px; bottom: -100px; left: -100px; animation-direction: reverse; animation-duration: 40s; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 3rem;
-            background: rgba(10, 14, 26, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            position: fixed; top: 0; width: 100%; padding: 1.5rem 3rem;
+            background: rgba(10, 14, 26, 0.8); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border); z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         .logo {
-            font-family: 'Exo 2', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
+            font-family: 'Exo 2', sans-serif; font-size: 1.5rem; font-weight: 800;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-amber));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
             letter-spacing: -0.02em;
         }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-            font-weight: 500;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-cyan);
-        }
-
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 8rem 2rem 4rem;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 4rem 0 6rem;
-            position: relative;
-        }
-
-        .hero h1 {
-            font-family: 'Exo 2', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-        }
-
-        .hero h1 span {
-            display: block;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            font-weight: 300;
-        }
-
-        .status-banner {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 50px;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: var(--status-active);
-        }
-
-        .status-banner::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--status-active);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: 'Sora', sans-serif;
-            cursor: pointer;
-            border: none;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-cyan), #0099cc);
-            color: var(--bg-primary);
-            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.4);
-        }
-
-        .btn-secondary {
-            background: var(--glass-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--accent-cyan);
-            background: rgba(0, 217, 255, 0.1);
-        }
-
-        .btn-donate {
-            background: linear-gradient(135deg, var(--accent-purple), #9333ea);
-            color: white;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
-        }
-
-        .btn-donate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4);
-        }
-
-        .btn-join {
-            background: linear-gradient(135deg, var(--accent-amber), #ea580c);
-            color: white;
-            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
-        }
-
-        .btn-join:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4);
-        }
-
-        .modules {
-            margin: 4rem 0;
-        }
-
-        .section-title {
-            font-family: 'Exo 2', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            color: var(--text-primary);
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            font-size: 0.95rem;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 217, 255, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-        }
-
-        .status-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .status-tag.active {
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--status-active);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .status-tag.archived {
-            background: rgba(107, 114, 128, 0.15);
-            color: var(--status-archived);
-            border: 1px solid rgba(107, 114, 128, 0.3);
-        }
-
-        .card h3 {
-            font-family: 'Exo 2', sans-serif;
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            color: var(--accent-cyan);
-        }
-
-        .card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.7;
-        }
-
-        .tech-tag {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: rgba(0, 217, 255, 0.1);
-            color: var(--accent-cyan);
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 1rem;
-            border: 1px solid rgba(0, 217, 255, 0.2);
-            font-family: monospace;
-        }
-
-        /* 简化的开发进度 */
-        .dev-status-simple {
-            margin: 3rem 0;
-            padding: 1.5rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .dev-status-simple p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .dev-status-simple strong {
-            color: var(--accent-amber);
-        }
-
-        /* 社区参与区域 */
-        .community {
-            margin: 4rem 0;
-            text-align: center;
-        }
-
-        .community-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            max-width: 600px;
-            margin: 2rem auto 0;
-        }
-
-        .community-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .community-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(168, 85, 247, 0.3);
-        }
-
-        .community-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .community-card h3 {
-            font-family: 'Exo 2', sans-serif;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .community-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .downloads {
-            margin: 4rem 0;
-            text-align: center;
-            padding: 3rem;
-            background: var(--glass-bg);
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-        }
-
-        .platform-notice {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.25rem;
-            background: rgba(0, 217, 255, 0.1);
-            border: 1px solid rgba(0, 217, 255, 0.2);
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: var(--accent-cyan);
-        }
-
-        .download-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .download-btn {
-            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(0, 217, 255, 0.05));
-            border: 1px solid rgba(0, 217, 255, 0.3);
-            color: var(--accent-cyan);
-            padding: 1.25rem;
-            border-radius: 12px;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-        }
-
-        .download-btn:hover {
-            background: rgba(0, 217, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
-        }
-
-        .download-version {
-            font-size: 0.8rem;
-            opacity: 0.8;
-            font-weight: 400;
-        }
-
-        .loading-text {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 1rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            border-top: 1px solid var(--glass-border);
-            margin-top: 4rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        footer a {
-            color: var(--accent-cyan);
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
-
-        footer a:hover {
-            opacity: 0.8;
-        }
-
-        .license-badge {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-family: monospace;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--glass-border);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-cyan);
-        }
-
-
-
-            main {
-                padding: 6rem 1rem 2rem;
-            }
-
-            .hero {
-                padding: 2rem 0;
-            }
-
-            .downloads {
-                padding: 2rem 1rem;
-            }
-        }
-    
-        /* 移动端优化 */
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent-cyan); }
+        main { max-width: 1200px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .hero { text-align: center; padding: 4rem 0 6rem; position: relative; }
+        .hero h1 { font-family: 'Exo 2', sans-serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; margin-bottom: 1.5rem; line-height: 1.1; letter-spacing: -0.02em; }
+        .hero h1 span { display: block; background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 3rem; font-weight: 300; }
+        .status-banner { display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 50px; margin-bottom: 2rem; font-size: 0.9rem; color: var(--status-active); }
+        .status-banner::before { content: ''; width: 8px; height: 8px; background: var(--status-active); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Sora', sans-serif; cursor: pointer; border: none; font-size: 0.95rem; }
+        .btn-primary { background: linear-gradient(135deg, var(--accent-cyan), #0099cc); color: var(--bg-primary); box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 217, 255, 0.4); }
+        .btn-secondary { background: var(--glass-bg); color: var(--text-primary); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
+        .btn-secondary:hover { border-color: var(--accent-cyan); background: rgba(0, 217, 255, 0.1); }
+        .btn-donate { background: linear-gradient(135deg, var(--accent-purple), #9333ea); color: white; box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3); }
+        .btn-donate:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4); }
+        .btn-join { background: linear-gradient(135deg, var(--accent-amber), #ea580c); color: white; box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3); }
+        .btn-join:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255, 107, 53, 0.4); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; box-shadow: none; }
+        .modules { margin: 4rem 0; }
+        .section-title { font-family: 'Exo 2', sans-serif; font-size: 2rem; margin-bottom: 1rem; text-align: center; color: var(--text-primary); }
+        .section-subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 3rem; font-size: 0.95rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px); position: relative; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); opacity: 0; transition: opacity 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: rgba(0, 217, 255, 0.3); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
+        .card:hover::before { opacity: 1; }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .card-icon { font-size: 2.5rem; }
+        .status-tag { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .status-tag.active { background: rgba(34, 197, 94, 0.15); color: var(--status-active); border: 1px solid rgba(34, 197, 94, 0.3); }
+        .status-tag.archived { background: rgba(107, 114, 128, 0.15); color: var(--status-archived); border: 1px solid rgba(107, 114, 128, 0.3); }
+        .card h3 { font-family: 'Exo 2', sans-serif; font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent-cyan); }
+        .card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+        .tech-tag { display: inline-block; padding: 0.25rem 0.75rem; background: rgba(0, 217, 255, 0.1); color: var(--accent-cyan); border-radius: 6px; font-size: 0.75rem; font-weight: 600; margin-top: 1rem; border: 1px solid rgba(0, 217, 255, 0.2); font-family: monospace; }
+        .dev-status-simple { margin: 3rem 0; padding: 1.5rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; text-align: center; backdrop-filter: blur(10px); }
+        .dev-status-simple p { color: var(--text-secondary); font-size: 0.95rem; }
+        .dev-status-simple strong { color: var(--accent-amber); }
+        .community { margin: 4rem 0; text-align: center; }
+        .community-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 600px; margin: 2rem auto 0; }
+        .community-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; transition: all 0.3s; backdrop-filter: blur(10px); }
+        .community-card:hover { transform: translateY(-3px); border-color: rgba(168, 85, 247, 0.3); }
+        .community-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .community-card h3 { font-family: 'Exo 2', sans-serif; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .community-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .downloads { margin: 4rem 0; text-align: center; padding: 3rem; background: var(--glass-bg); border-radius: 24px; border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
+        .platform-notice { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.2); border-radius: 8px; margin-bottom: 2rem; font-size: 0.9rem; color: var(--accent-cyan); }
+        .download-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .download-btn { background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(0, 217, 255, 0.05)); border: 1px solid rgba(0, 217, 255, 0.3); color: var(--accent-cyan); padding: 1.25rem; border-radius: 12px; text-decoration: none; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-weight: 600; }
+        .download-btn:hover { background: rgba(0, 217, 255, 0.2); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2); }
+        .download-version { font-size: 0.8rem; opacity: 0.8; font-weight: 400; }
+        .loading-text, .error-text { color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem; }
+        .error-text { color: var(--accent-amber); }
+        footer { text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--glass-border); margin-top: 4rem; color: var(--text-secondary); font-size: 0.9rem; }
+        footer a { color: var(--accent-cyan); text-decoration: none; transition: opacity 0.3s; }
+        footer a:hover { opacity: 0.8; }
+        .license-badge { display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 6px; font-size: 0.8rem; font-family: monospace; }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
         @media (max-width: 768px) {
-            nav {
-                padding: 1rem;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            .nav-links {
-                gap: 1rem;
-                font-size: 0.85rem;
-            }
-
-            .nav-links a {
-                font-size: 0.85rem;
-            }
-
-            main {
-                padding: 5rem 1rem 2rem;
-            }
-
-            .hero {
-                padding: 1.5rem 0 3rem;
-            }
-
-            .hero h1 {
-                font-size: 1.8rem;
-                line-height: 1.2;
-            }
-
-            .hero h1 span {
-                font-size: 1.4rem;
-                margin-top: 0.5rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1rem;
-                padding: 0 0.5rem;
-            }
-
-            .status-banner {
-                font-size: 0.8rem;
-                padding: 0.5rem 1rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                padding: 0 1rem;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 280px;
-                justify-content: center;
-                padding: 0.875rem 1.5rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .section-subtitle {
-                font-size: 0.85rem;
-                padding: 0 1rem;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-                padding: 0 0.5rem;
-            }
-
-            .card {
-                padding: 1.5rem;
-            }
-
-            .card-icon {
-                font-size: 2rem;
-            }
-
-            .card h3 {
-                font-size: 1.1rem;
-            }
-
-            .card p {
-                font-size: 0.85rem;
-            }
-
-            .dev-status-simple {
-                margin: 2rem 0.5rem;
-                padding: 1rem;
-            }
-
-            .dev-status-simple p {
-                font-size: 0.85rem;
-            }
-
-            .community-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-                padding: 0 0.5rem;
-            }
-
-            .community-card {
-                padding: 1.5rem;
-            }
-
-            .community-icon {
-                font-size: 2.5rem;
-            }
-
-            .community-card h3 {
-                font-size: 1.1rem;
-            }
-
-            .community-card p {
-                font-size: 0.85rem;
-            }
-
-            .btn-donate, .btn-join {
-                width: 100%;
-            }
-
-            .downloads {
-                margin: 3rem 0.5rem;
-                padding: 2rem 1rem;
-            }
-
-            .platform-notice {
-                font-size: 0.8rem;
-                padding: 0.5rem 1rem;
-            }
-
-            .download-grid {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
-
-            .download-btn {
-                padding: 1rem;
-                flex-direction: row;
-                justify-content: flex-start;
-                gap: 1rem;
-            }
-
-            .download-btn span:first-child {
-                font-size: 1.5rem !important;
-            }
-
-            footer {
-                padding: 2rem 1rem;
-                font-size: 0.8rem;
-            }
-
-            .orbit {
-                display: none;
-            }
+            nav { padding: 1rem; }
+            .logo { font-size: 1.2rem; }
+            .nav-links { gap: 1rem; }
+            .nav-links a { font-size: 0.85rem; }
+            main { padding: 5rem 1rem 2rem; }
+            .hero { padding: 1.5rem 0 3rem; }
+            .hero h1 { font-size: 1.8rem; line-height: 1.2; }
+            .hero h1 span { font-size: 1.4rem; margin-top: 0.5rem; }
+            .hero-subtitle { font-size: 1rem; padding: 0 0.5rem; }
+            .status-banner { font-size: 0.8rem; padding: 0.5rem 1rem; margin-bottom: 1.5rem; }
+            .cta-buttons { flex-direction: column; align-items: center; width: 100%; padding: 0 1rem; }
+            .btn { width: 100%; max-width: 280px; justify-content: center; padding: 0.875rem 1.5rem; }
+            .section-title { font-size: 1.5rem; }
+            .section-subtitle { font-size: 0.85rem; padding: 0 1rem; }
+            .grid { grid-template-columns: 1fr; gap: 1rem; padding: 0 0.5rem; }
+            .card { padding: 1.5rem; }
+            .card-icon { font-size: 2rem; }
+            .card h3 { font-size: 1.1rem; }
+            .card p { font-size: 0.85rem; }
+            .dev-status-simple { margin: 2rem 0.5rem; padding: 1rem; }
+            .dev-status-simple p { font-size: 0.85rem; }
+            .community-grid { grid-template-columns: 1fr; gap: 1rem; padding: 0 0.5rem; }
+            .community-card { padding: 1.5rem; }
+            .community-icon { font-size: 2.5rem; }
+            .community-card h3 { font-size: 1.1rem; }
+            .community-card p { font-size: 0.85rem; }
+            .downloads { margin: 3rem 0.5rem; padding: 2rem 1rem; }
+            .platform-notice { font-size: 0.8rem; padding: 0.5rem 1rem; }
+            .download-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+            .download-btn { padding: 1rem; flex-direction: row; justify-content: flex-start; gap: 1rem; }
+            footer { padding: 2rem 1rem; font-size: 0.8rem; }
+            .orbit { display: none; }
         }
-
-        /* 超小屏幕优化 */
         @media (max-width: 380px) {
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-
-            .hero h1 span {
-                font-size: 1.2rem;
-            }
-
-            .nav-links {
-                gap: 0.75rem;
-            }
-
-            .nav-links a {
-                font-size: 0.8rem;
-            }
-
-            .status-banner {
-                font-size: 0.75rem;
-            }
+            .hero h1 { font-size: 1.5rem; }
+            .hero h1 span { font-size: 1.2rem; }
+            .nav-links { gap: 0.75rem; }
+            .nav-links a { font-size: 0.8rem; }
+            .status-banner { font-size: 0.75rem; }
         }
-
-        /* 触控优化 */
         @media (hover: none) {
-            .card:hover {
-                transform: none;
-            }
-
-            .btn:hover {
-                transform: none;
-            }
-
-            .download-btn:hover {
-                transform: none;
-            }
+            .card:hover { transform: none; }
+            .btn:hover { transform: none; }
+            .download-btn:hover { transform: none; }
         }
-
     </style>
 <base target="_blank">
 </head>
@@ -791,7 +183,6 @@
     <div class="stars" id="stars"></div>
     <div class="orbit orbit-1"></div>
     <div class="orbit orbit-2"></div>
-
     <nav>
         <div class="logo">SFS_CHINESE</div>
         <ul class="nav-links">
@@ -801,79 +192,49 @@
             <li><a href="https://github.com/Dere3046/SFS_Chinese" target="_blank">GitHub →</a></li>
         </ul>
     </nav>
-
     <main>
         <section class="hero">
-            <div class="status-banner">
-                <span>启用官方多语言支持 · 汉化补全开发中</span>
-            </div>
-            <h1>
-                <span>Spaceflight Simulator</span>
-                中文汉化方案
-            </h1>
-            <p class="hero-subtitle">
-                专为 Windows 平台设计的 SFS 汉化工具，启用游戏原生多语言功能。
-                当前版本已支持基本界面汉化，部分文字未使用翻译键（无法通过常规方式自定义翻译），汉化补全功能正在开发中。
-            </p>
+            <div class="status-banner"><span>启用官方多语言支持 · 汉化补全开发中</span></div>
+            <h1><span>Spaceflight Simulator</span>中文汉化方案</h1>
+            <p class="hero-subtitle">专为 Windows 平台设计的 SFS 汉化工具，启用游戏原生多语言功能。当前版本已支持基本界面汉化，部分文字未使用翻译键（无法通过常规方式自定义翻译），汉化补全功能正在开发中。</p>
             <div class="cta-buttons">
-                <a href="#downloads" class="btn btn-primary">
-                    <span>↓</span> 立即下载
-                </a>
-                <a href="https://github.com/Dere3046/SFS_Chinese" class="btn btn-secondary" target="_blank">
-                    查看源码
-                </a>
+                <a href="#downloads" class="btn btn-primary"><span>↓</span> 立即下载</a>
+                <a href="https://github.com/Dere3046/SFS_Chinese" class="btn btn-secondary" target="_blank">查看源码</a>
             </div>
         </section>
-
         <section class="modules" id="modules">
             <h2 class="section-title">项目组件</h2>
             <p class="section-subtitle">仅 SFS_Chinese_Tool v2.0 与 HAN_MOD 处于活跃维护状态</p>
             <div class="grid">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">🔧</div>
-                        <span class="status-tag active">● 维护中</span>
-                    </div>
+                    <div class="card-header"><div class="card-icon">🔧</div><span class="status-tag active">● 维护中</span></div>
                     <h3>SFS_Chinese_Tool v2.0</h3>
                     <p>一站式汉化工具，集成官方汉化与字体修复。基于 Python 开发，无需手动配置，一键完成游戏汉化。</p>
                     <span class="tech-tag">Python</span>
                 </div>
                 <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">🌐</div>
-                        <span class="status-tag active">● 维护中</span>
-                    </div>
+                    <div class="card-header"><div class="card-icon">🌐</div><span class="status-tag active">● 维护中</span></div>
                     <h3>HAN_MOD</h3>
                     <p>游戏内核汉化模组，处理官方汉化未覆盖的文本资源。持续更新以适配最新游戏版本。</p>
                     <span class="tech-tag">C#</span>
                 </div>
                 <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">🛠️</div>
-                        <span class="status-tag archived">⏹ 已停更</span>
-                    </div>
+                    <div class="card-header"><div class="card-icon">🛠️</div><span class="status-tag archived">⏹ 已停更</span></div>
                     <h3>Language_TOOL</h3>
                     <p>辅助语言工具，用于处理翻译文件格式转换。基于 Rust 开发，现已停止维护。</p>
                     <span class="tech-tag">Rust</span>
                 </div>
                 <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">🔤</div>
-                        <span class="status-tag archived">⏹ 已停更</span>
-                    </div>
+                    <div class="card-header"><div class="card-icon">🔤</div><span class="status-tag archived">⏹ 已停更</span></div>
                     <h3>FontFix Plugin</h3>
                     <p>早期字体修复方案，使用 BepInEx 注入替换字体。已被 v2.0 工具集成，独立版本不再更新。</p>
                     <span class="tech-tag">C#</span>
                 </div>
             </div>
         </section>
-
         <div class="dev-status-simple">
-            <p>
-                当前已启用游戏原生多语言支持。部分文字未使用翻译键（无法通过常规方式自定义翻译），<strong>汉化补全功能</strong>正在开发中以修复此问题
-            </p>
+            <p>当前已启用游戏原生多语言支持。部分文字未使用翻译键（无法通过常规方式自定义翻译），<strong>汉化补全功能</strong>正在开发中以修复此问题</p>
         </div>
-
         <section class="community" id="community">
             <h2 class="section-title">加入社区</h2>
             <p class="section-subtitle">支持项目发展或参与贡献</p>
@@ -882,54 +243,46 @@
                     <div class="community-icon">💜</div>
                     <h3>捐赠支持</h3>
                     <p>帮助项目持续发展，支持服务器与开发工具开支</p>
-                    <button class="btn btn-donate" id="donate-btn" disabled style="opacity: 0.6; cursor: not-allowed;">暂未开启</button>
+                    <button class="btn btn-donate" id="donate-btn" disabled>暂未开启捐赠渠道</button>
                 </div>
                 <div class="community-card">
                     <div class="community-icon">🤝</div>
                     <h3>加入团队</h3>
                     <p>参与翻译、开发或测试工作，共建更好的汉化方案</p>
-                    <a href="#" class="btn btn-join" id="join-link" target="_blank">联系我们</a>
+                    <a href="#" class="btn btn-join" id="join-link">联系我们</a>
                 </div>
             </div>
         </section>
-
         <section class="downloads" id="downloads">
             <h2 class="section-title">快速下载</h2>
-            <div class="platform-notice">
-                <span>⚠️</span> 当前仅支持 Windows 系统
-            </div>
-            <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
-                下载汉化工具自动配置，或获取独立组件手动安装
-            </p>
+            <div class="platform-notice"><span>⚠️</span> 当前仅支持 Windows 系统</div>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">下载汉化工具自动配置，或获取独立组件手动安装</p>
             <div class="download-grid" id="download-grid">
                 <div class="loading-text">正在加载...</div>
             </div>
         </section>
     </main>
-
     <footer>
         <p>本项目采用 MIT 许可证开源 · 由社区驱动维护</p>
         <div class="license-badge">MIT License</div>
         <p style="margin-top: 1rem;">
             <a href="https://github.com/Dere3046/SFS_Chinese">GitHub</a> · 
-            <a href="https://github.com/Dere3046/SFS_Chinese/issues">问题反馈</a>
+            <a href="https://github.com/Dere3046/SFS_Chinese/issues">问题反馈</a> · 
+            <a href="https://github.com/Dere3046/SFS_Chinese/wiki" target="_blank">使用文档（Wiki）</a>
         </p>
-        <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;">
-            SFS_Chinese Project © 2026 · Windows x64 Only
-        </p>
+        <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;">SFS_Chinese Project © 2026 · Windows x64 Only</p>
     </footer>
-
     <script>
-        // 生成星空背景
+        // 生成星空
         function createStars() {
             const starsContainer = document.getElementById('stars');
+            if (!starsContainer) return;
             const starCount = 100;
-
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = Math.random() * 100 + '%';
-                star.star.style.top = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
                 star.style.width = Math.random() * 3 + 'px';
                 star.style.height = star.style.width;
                 star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
@@ -938,72 +291,53 @@
             }
         }
 
-        // 从JSON加载数据（下载链接 + 社区链接）
+        // 加载JSON数据
         async function loadData() {
             const grid = document.getElementById('download-grid');
+            const donateBtn = document.getElementById('donate-btn');
+            const joinLink = document.getElementById('join-link');
 
             try {
-                const response = await fetch('data.json?v=' + Date.now()); // 添加时间戳防止缓存
+                const response = await fetch('data.json?v=' + Date.now());
                 if (!response.ok) throw new Error('HTTP ' + response.status);
                 const data = await response.json();
 
-                console.log('Data loaded:', data); // 调试信息
-
-                // 检查是否有下载数据
+                // 下载按钮
                 if (data.downloads && Object.keys(data.downloads).length > 0) {
-                    renderDownloads(data.downloads);
+                    grid.innerHTML = '';
+                    Object.entries(data.downloads).forEach(([key, item]) => {
+                        const btn = document.createElement('a');
+                        btn.className = 'download-btn';
+                        btn.href = item.url;
+                        btn.target = '_blank';
+                        btn.innerHTML = '<span style="font-size: 1.5rem;">' + (item.icon || '↓') + '</span><span>' + item.name + '</span><span class="download-version">' + item.version + '</span>';
+                        grid.appendChild(btn);
+                    });
                 } else {
                     grid.innerHTML = '<div class="loading-text">暂无可用下载</div>';
                 }
 
-                // 设置社区链接
+                // 社区链接
                 if (data.community) {
-                    const donateBtn = document.getElementById('donate-btn');
-                    const joinLink = document.getElementById('join-link');
-
-                    if (donateBtn && data.community.donate && data.community.donate !== '') {
-                        donateBtn.outerHTML = `<a href="${data.community.donate}" class="btn btn-donate" target="_blank">前往捐赠</a>`;
-                    } else if (donateBtn) {
-                        donateBtn.textContent = '暂未开启捐赠渠道';
-                        donateBtn.disabled = true;
+                    if (data.community.donate && donateBtn) {
+                        donateBtn.outerHTML = '<a href="' + data.community.donate + '" class="btn btn-donate" target="_blank">前往捐赠</a>';
                     }
-
-                    if (joinLink && data.community.join) {
+                    if (data.community.join && joinLink) {
                         joinLink.href = data.community.join;
                     }
                 }
             } catch (error) {
-                console.error('加载数据失败:', error);
-                grid.innerHTML = '<div class="error-text">无法加载下载信息 (' + error.message + ')</div>';
+                console.error('Error:', error);
+                if (grid) grid.innerHTML = '<div class="error-text">加载失败: ' + error.message + '</div>';
             }
-        }
-
-        function renderDownloads(data) {
-            const grid = document.getElementById('download-grid');
-            grid.innerHTML = '';
-
-            Object.entries(data).forEach(([key, item]) => {
-                const btn = document.createElement('a');
-                btn.className = 'download-btn';
-                btn.href = item.url;
-                btn.target = '_blank';
-                btn.innerHTML = `
-                    <span style="font-size: 1.5rem;">${item.icon || '↓'}</span>
-                    <span>${item.name}</span>
-                    <span class="download-version">${item.version}</span>
-                `;
-                grid.appendChild(btn);
-            });
         }
 
         // 平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
 
