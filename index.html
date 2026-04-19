@@ -389,7 +389,7 @@
             font-family: monospace;
         }
 
-        /* 开发进度 */
+        /* 简化的开发进度 */
         .dev-status-simple {
             margin: 3rem 0;
             padding: 1.5rem;
@@ -943,9 +943,11 @@
             const grid = document.getElementById('download-grid');
 
             try {
-                const response = await fetch('data.json');
-                if (!response.ok) throw new Error('Failed to load');
+                const response = await fetch('data.json?v=' + Date.now()); // 添加时间戳防止缓存
+                if (!response.ok) throw new Error('HTTP ' + response.status);
                 const data = await response.json();
+
+                console.log('Data loaded:', data); // 调试信息
 
                 // 检查是否有下载数据
                 if (data.downloads && Object.keys(data.downloads).length > 0) {
@@ -959,21 +961,20 @@
                     const donateBtn = document.getElementById('donate-btn');
                     const joinLink = document.getElementById('join-link');
 
-                    if (data.community.donate && data.community.donate !== '') {
+                    if (donateBtn && data.community.donate && data.community.donate !== '') {
                         donateBtn.outerHTML = `<a href="${data.community.donate}" class="btn btn-donate" target="_blank">前往捐赠</a>`;
-                    } else {
+                    } else if (donateBtn) {
                         donateBtn.textContent = '暂未开启捐赠渠道';
-                        donateBtn.style.opacity = '0.6';
-                        donateBtn.style.cursor = 'not-allowed';
+                        donateBtn.disabled = true;
                     }
 
-                    if (data.community.join) {
+                    if (joinLink && data.community.join) {
                         joinLink.href = data.community.join;
                     }
                 }
             } catch (error) {
-                console.log('加载数据失败:', error);
-                grid.innerHTML = '<div class="error-text">无法加载下载信息，请检查网络连接或稍后再试</div>';
+                console.error('加载数据失败:', error);
+                grid.innerHTML = '<div class="error-text">无法加载下载信息 (' + error.message + ')</div>';
             }
         }
 
