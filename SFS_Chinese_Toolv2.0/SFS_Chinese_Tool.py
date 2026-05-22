@@ -20,8 +20,7 @@ def resource_path(relative_path):
 # 初始化
 Toolroot = tk.Tk()
 Toolroot.title("SFS文本编辑工具")
-Toolroot.geometry("600x300")
-Toolroot.maxsize(600, 300)
+Toolroot.geometry("900x600")
 Toolroot.minsize(600, 300)
 Toolroot.iconbitmap(resource_path("ICO.ico"))
 Toolroot.update()
@@ -56,6 +55,7 @@ Buttons = [
                 
 # 定义寻找自定义文件
 def FoundTextFile():
+    os.makedirs(LanguageDir, exist_ok=True)
     File = os.listdir(LanguageDir)
     if "Example.txt" in File:
         File.remove("Example.txt")
