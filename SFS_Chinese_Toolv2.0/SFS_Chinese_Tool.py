@@ -1,184 +1,129 @@
-try:
-    import tkinter as tk
-    from tkinter import messagebox as mb, filedialog as fdl, ttk
-    import os
-    import zipfile
-    import sys
-except ImportError:
-    print("error")
+import tkinter as tk
+from tkinter import filedialog, ttk, messagebox
+from pathlib import Path
+# 配置文件
+config = {
+     "Theme": "",
+     "GamePath": ""
+}
+themes = {
+    "black": {
+        "bg": "#2b2b2b",
+        "fg": "#ffffff",
+        "button_bg": "#1E74C4",
+        "button_active_bg": "#1669B0", # 鼠标悬停时的颜色（可选）
+    },
+    "white": {
+        "bg": "#bebebe",
+        "fg": "#000000",
+        "button_bg": "#1E74C4",
+        "button_active_bg": "#1669B0",
+    }
+}
 
-def resource_path(relative_path):
-    """ 获取资源绝对路径，用于处理 PyInstaller 打包后的路径问题 """
-    if hasattr(sys, '_MEIPASS'):
-        # PyInstaller 打包后的临时目录
-        base_path = sys._MEIPASS
-    else:
-        # 正常运行时的目录
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
-
-# 初始化
-Toolroot = tk.Tk()
-Toolroot.title("SFS文本编辑工具")
-Toolroot.geometry("600x300")
-Toolroot.maxsize(600, 300)
-Toolroot.minsize(600, 300)
-Toolroot.iconbitmap(resource_path("ICO.ico"))
-Toolroot.update()
-Toolroot.config(bg="#000000")
-Toolroot.columnconfigure(1, weight=1)
-Toolroot.columnconfigure(2, weight=2)
-GameDir, LanguageSettings_2_Path, LanguageDir, ModDir = "", "", "", ""
-Font = ("黑体", 14)
-bg = "#202020"
-green_fg = "green"
-red_fg = "red"
-fg = "white"
-MODurl = "https://release-assets.githubusercontent.com/github-production-release-asset/1207327489/9b2d605f-51ed-4c55-9b23-57e3bd2840c7?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-04-12T02%3A53%3A03Z&rscd=attachment%3B+filename%3DSFS_HAN_MODv5.1.0.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-04-12T01%3A52%3A59Z&ske=2026-04-12T02%3A53%3A03Z&sks=b&skv=2018-11-09&sig=20woqBqhIiS8giMhN0rHMolCh%2BxIL%2BHGbGS8hlV2SXY%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHViLmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3NzU5NTk4NDcsIm5iZiI6MTc3NTk1OTU0NywicGF0aCI6InJlbGVhc2Vhc3NldHByb2R1Y3Rpb24uYmxvYi5jb3JlLndpbmRvd3MubmV0In0.8cK3N6IfeOxcb0p_gDrWno0uYyO0IObpMXKvSGZ7zcE&response-content-disposition=attachment%3B%20filename%3DSFS_HAN_MODv5.1.0.zip&response-content-type=application%2Foctet-stream"
-Elements = []
-Texts = [
-    "1.选择游戏根目录(否则软件无法使用)",
-    "选择的文件夹不是游戏根目录,请重新选择",
-    "检查中",
-    "未安装字体修复MOD",
-    "已安装字体修复MOD",
-    "字体修复MOD:",
-    "汉化及自定义文字:",
-    "使用自定义汉化文件"
-]
-Buttons = [
-    "点击选择游戏根目录",
-    "安装MOD",
-    "一键汉化",
-    "应用选择",
-    "关于"
-]
+def open_config():
+    try:
+        with open("config.txt", "r", encoding="utf-8") as f:
+                line = f.readline()
+                config["Theme"] = line.strip() or "black"
                 
-# 定义寻找自定义文件
-def FoundTextFile():
-    File = os.listdir(LanguageDir)
-    if "Example.txt" in File:
-        File.remove("Example.txt")
-    File.append("请选择")
-    return File
-
-# 安装MOD
-def StepMOD(Button, text):
-    if not os.path.exists(ModDir):
-        os.makedirs(ModDir)    
-    with zipfile.ZipFile(os.path.join(os.path.dirname(os.path.abspath(__file__)), "SFS_HAN_MODv5.1.0.zip"), "r") as zip:
-        zip.extractall(ModDir)
-        Button.destroy()
-        text.config(text=Texts[4], fg=green_fg)
-
-# 获取用户选择的自定义文件
-def GetFile(Frame, Combobox):
-    selected = Combobox.get()
-    text = tk.Label(Frame, text="未选择文件", fg=red_fg, font=Font, bg=bg)
-    text.grid(sticky="w", row=3, column=0, padx=5, pady=(3, 5))
-    Elements.append(text)
-    if selected == "请选择":
-        pass
-    else:
-        text.config(text=f"更改成功，已选择:{selected}", fg=green_fg)
-        with open(LanguageSettings_2_Path, "w", encoding="utf-8") as f:
-            f.writelines("{\n")
-            f.writelines(f" \"codeName\": \"{selected}\",\n")
-            f.writelines(" \"custom\": true\n")
-            f.writelines("}")
-
-
-
-# 定义一键汉化
-def Chines():
-    with open(LanguageSettings_2_Path, "w", encoding="utf-8") as f:
-        f.writelines("{\n")
-        f.writelines(" \"codeName\": \"CN\",\n")
-        f.writelines(" \"custom\": true\n")
-        f.writelines("}")
-    try:    
-        with zipfile.ZipFile(resource_path("SFS_Chinese.zip"), "r") as zf:
-            zf.extractall(LanguageDir)
-            mb.showinfo("提示", "成功汉化")
+                line = f.readline()
+                config["GamePath"] = line.strip() if line else ""
+                print(f"主题:{config['Theme']}\n游戏路径:{config['GamePath'] or '未选择'}")
     except FileNotFoundError:
-        mb.showerror("错误", "未找到汉化文件")
+         print("警告:未找到配置文件!")
+         config["Theme"] = "black"
 
-# 定义安装字体修复MOD的功能
-def ManageMOD():
-    Frame1 = tk.Frame(Toolroot, bg=bg, relief=tk.RAISED, borderwidth=1)
-    Text1 = tk.Label(Frame1, text=Texts[5], fg=fg, bg=bg, font=Font)
-    Text2 = tk.Label(Frame1, text=Texts[2], bg=bg, fg=fg, font=Font)
-    Frame1.grid(row=1, column=1, sticky="w", padx=30, pady=10, ipady=1)
-    Text2.grid(row=1, column=0, sticky="w", pady=(10, 5))
-    Text1.grid(row=0, column=0, padx=(5, 5), pady=(3, 3))
-    Elements.append(Text1)
-    Elements.append(Frame1)
-    Elements.append(Text2)
-    if not os.path.exists(os.path.join(ModDir, "SFS_HAN_MOD")):
-        Text2.config(text=Texts[3], fg=red_fg)
-        Button2 = tk.Button(Frame1, text=Buttons[1], fg=fg, bg=bg, font=Font, command=lambda:StepMOD(Button2, Text2))
-        Elements.append(Button2)
-        Button2.grid(row=2, column=0, sticky="w", pady=(2, 5), padx=(5,5))
-    elif os.path.exists(os.path.join(ModDir, "SFS_HAN_MOD")):
-        Text2.config(text=Texts[4], fg=green_fg)
+def write_config():
+    try:
+        with open("config.txt", "w", encoding="utf-8") as f:
+            f.write(config["Theme"] + "\n" + config["GamePath"])
+    except Exception:
+        print("权限不足")
 
-# 定义设置自定义及汉化文字（LanguageSettings_2.txt）
-def SetForLanguageSetting_2GUI():
-    Frame2 = tk.Frame(Toolroot, bg=bg, relief=tk.RAISED, borderwidth=0.5)
-    Text3 = tk.Label(Frame2, text=Texts[6], bg=bg, fg=fg, font=Font)
-    Button3 = tk.Button(Frame2, text=Buttons[2], font=Font, fg=fg, bg=bg, command=Chines)
-    Text4 = tk.Label(Frame2, text=Texts[7], bg=bg, fg=fg, font=Font)
-    File = FoundTextFile()
-    Combobox = ttk.Combobox(Frame2, values=File)
-    Combobox.current(len(File) - 1)
-    Button4 = tk.Button(Frame2, text=Buttons[3], font=Font, fg=fg, bg=bg, command=lambda:GetFile(Frame2, Combobox))
-    Frame2.grid(row=1, column=1, sticky="e", padx=40, pady=10, ipadx=5, ipady=3)
-    Text3.grid(sticky="w", row=0, column=0, padx=5, pady=(3, 5))
-    Button3.grid(sticky="w", row=1, column=0, padx=5, pady=(3, 5))
-    Text4.grid(sticky="w", row=2, column=0, padx=5, pady=(6, 5))
-    Combobox.grid(sticky="w", row=4, column=0, padx=5, pady=(3, 5))
-    Button4.grid(sticky="w", row=5, column=0, padx=5, pady=(3, 5))
-    Elements.append(Frame2)
-    Elements.append(Text4)
-    Elements.append(Text3)
-    Elements.append(Button3)
-    Elements.append(Button4)
-    Elements.append(Combobox)
+open_config()
 
-# 定义选择游戏目录指令
-def SeletGameDir():
-    global GameDir, LanguageSettings_2_Path, LanguageDir, ModDir
-    path = fdl.askdirectory(title="选择游戏根目录")
-    if path:
-        if os.path.isfile(os.path.join(path, r"Spaceflight Simulator.exe")):
-            GameDir = path
-            LanguageSettings_2_Path = os.path.join(GameDir, r"Saving\Settings\LanguageSettings_2.txt")
-            LanguageDir = os.path.join(GameDir, r"Spaceflight Simulator_Data\Custom Translations")
-            ModDir = os.path.join(GameDir, "Mods")
-            for w in Elements:
-                w.destroy()
-            Text1 = tk.Label(Frame, bg=bg, fg=green_fg, font=Font, text=f"已选择游戏目录：{GameDir}")
-            Text1.grid(row=0, column=0)
-            Elements.append(Text1)
-            ManageMOD()
-            SetForLanguageSetting_2GUI()
-        else:
-            Text.config(text=Texts[1], fg=red_fg)
+# 获取当前主题配置
+current_theme_name = config.get("Theme", "black")
+theme = themes[current_theme_name]
 
-def R():
-    yesorno = mb.askyesno("声明", "本项目由（bilibili用户名）：\n冰红肠大王（字体修复MOD开发）\n我没有油了（程序界面开发）\n\n是否打开本项目网页")
-    if yesorno:
-        os.startfile("https://github.com/Dere3046/SFS_Chinese")
+# 初始化变量
+button_normal_state = tk.NORMAL
+button_disabled_state = tk.DISABLED
+button_relief = tk.FLAT
+# 初始化窗口
+root = tk.Tk()
+root.title("SFS汉化工具")
+root.geometry("700x600")
+root.minsize(700, 600)
+root.maxsize(700, 600)
+root.config(bg=theme["bg"])
 
-Frame = tk.Frame(Toolroot, borderwidth=1, relief=tk.RAISED, bg=bg)
-Frame.grid(row=0,column=1, sticky="w", ipadx=5, ipady=5, padx=10, pady=10)
-Text = tk.Label(Frame, bg=bg, font=Font, text=Texts[0], fg=fg)
-Button = tk.Button(Frame, bg=bg, font=Font, text=Buttons[0], fg=fg, command=SeletGameDir)
-Buttonabo = tk.Button(Toolroot, bg=bg, font=Font, text=Buttons[4], fg=fg, command=R)
-Text.grid(row=0, column=0)
-Button.grid(row=1, column=0)
-Buttonabo.grid(row=2, column=0, pady=(10, 0), padx=20)
-Elements.append(Text)
-Elements.append(Button)
+# 功能区
+class Features():
+    """按钮等功能区"""
+    def assign(self, number):
+        """功能选择区"""
+        if number == 1:
+             self.select_game()
+    def select_game(self):
+        """选择游戏根目录文件夹"""
+        # 打开选择目录文件夹
+        game_dir = filedialog.askdirectory(title=r"选择游戏根目录(例如: \Steam..\游戏名)")
+        if game_dir:
+            print("游戏目录:" + game_dir)
+            path = Path(game_dir) / "Spaceflight Simulator.exe"
+            if path.is_file():
+                  config["GamePath"] = game_dir
+                  Button_select_gamepath.destroy()
+                  Label_select_gamepath.destroy()
+                  write_config()
+            else:
+             print("警告:这不是一个有效的路径")
+                  
 
-Toolroot.mainloop()
+features = Features()
+
+# 主题下拉菜单
+theme_var = tk.StringVar(value=current_theme_name)
+
+# 创建TK.OPTionmenu
+# 参数依次是: 父组件, 关联变量, 默认值, *选项列表
+theme_menu = tk.OptionMenu(
+    root,
+    theme_var,
+    *themes.keys()
+)
+theme_menu.config(
+    bg=theme["button_bg"],
+    fg=theme["fg"],
+    highlightthickness=0
+)
+
+# 定义控件
+Button_select_gamepath = tk.Button(
+     root, 
+     text="手动选择游戏根目录（自动寻找功能开发ing..）", 
+     bg=theme["button_bg"],
+     fg=theme["fg"],
+     relief=button_relief,
+     command=lambda: features.assign(1)
+)
+Label_select_gamepath = tk.Label(
+     root,
+     text=r"例如: \Steam..\游戏名",
+     bg=theme["bg"],
+     fg=theme["fg"]
+)
+
+#  UI界面 
+def GUI():  
+    """ UI界面"""
+    global Button_select_gamepath, Label_select_gamepath
+    if not config["GamePath"]:
+        Button_select_gamepath.grid(column=0, row=0, padx=(5, 5), pady=(5, 5))
+        Label_select_gamepath.grid(column=0, row=1, padx=(5, 5), pady=(5, 5))
+
+if __name__ == "__main__":
+    GUI()
+    root.mainloop()
