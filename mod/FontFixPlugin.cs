@@ -30,6 +30,12 @@ namespace SFS_FontFix
         private void Start()
         {
             TryReplaceFont();
+            if (!isInitialized)
+            {
+                var go = new GameObject("FontFixInit");
+                go.AddComponent<FontFixRetry>().mod = this;
+                DontDestroyOnLoad(go);
+            }
         }
 
         public void TryReplaceFont()
@@ -114,6 +120,21 @@ namespace SFS_FontFix
         }
     }
 
+    public class FontFixRetry : MonoBehaviour
+    {
+        public FontFixPlugin mod;
+
+        void Update()
+        {
+            if (mod.isInitialized)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            mod.TryReplaceFont();
+        }
+    }
+
     [HarmonyPatch(typeof(SFS.Translations.TranslationManager), "Awake")]
     public class TranslationManager_Awake_Patch
     {
@@ -145,19 +166,6 @@ namespace SFS_FontFix
         {
             if (FontFixPlugin.Instance?.chineseTMPFont == null) return;
             var tmp = __instance.GetComponentInChildren<TextMeshProUGUI>();
-            if (tmp != null && tmp.font != FontFixPlugin.Instance.chineseTMPFont)
-                tmp.font = FontFixPlugin.Instance.chineseTMPFont;
-        }
-    }
-
-    [HarmonyPatch(typeof(SFS.UI.TextAdapter), "Text", MethodType.Setter)]
-    public class TextAdapter_TextSetter_Patch
-    {
-        [HarmonyPostfix]
-        static void Postfix(SFS.UI.TextAdapter __instance)
-        {
-            if (FontFixPlugin.Instance?.chineseTMPFont == null) return;
-            var tmp = __instance.GetComponent<TextMeshProUGUI>();
             if (tmp != null && tmp.font != FontFixPlugin.Instance.chineseTMPFont)
                 tmp.font = FontFixPlugin.Instance.chineseTMPFont;
         }

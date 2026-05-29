@@ -13,7 +13,6 @@ namespace SFS_HAN_MOD
     {
         public static SFS_HAN_MOD Instance;
         static void Log(string msg) => UnityEngine.Debug.Log("[SFS_HAN_MOD] " + msg);
-        static void Log(object msg) => UnityEngine.Debug.Log("[SFS_HAN_MOD] " + msg);
 
         public override string ModNameID => "sfs_font_fix";
         public override string DisplayName => "SFS Font Fix";
@@ -35,6 +34,12 @@ namespace SFS_HAN_MOD
         public override void Load()
         {
             TryReplaceFont();
+            if (!isInitialized)
+            {
+                var go = new GameObject("FontFixInit");
+                go.AddComponent<FontFixRetry>().mod = this;
+                GameObject.DontDestroyOnLoad(go);
+            }
         }
 
         public void TryReplaceFont()
@@ -87,7 +92,7 @@ namespace SFS_HAN_MOD
                 chineseTMPFont.name = "NotoSansSC SDF";
                 chineseTMPFont.fallbackFontAssetTable = new List<TMP_FontAsset>();
             }
-            catch (System.Exception e) { Log("CreateFontAsset error: " + e.Message); }
+            catch (Exception e) { Log("CreateFontAsset error: " + e.Message); }
         }
 
         private void ReplaceNormalFont(SFS.Translations.TranslationManager manager)
@@ -128,6 +133,21 @@ namespace SFS_HAN_MOD
         }
     }
 
+    public class FontFixRetry : MonoBehaviour
+    {
+        public SFS_HAN_MOD mod;
+
+        void Update()
+        {
+            if (mod.isInitialized)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            mod.TryReplaceFont();
+        }
+    }
+
     [HarmonyPatch(typeof(SFS.Translations.TranslationManager), "Awake")]
     public class TranslationManager_Awake_Patch
     {
@@ -161,20 +181,6 @@ namespace SFS_HAN_MOD
             var mod = SFS_HAN_MOD.Instance;
             if (mod?.chineseTMPFont == null) return;
             var tmp = __instance.GetComponentInChildren<TextMeshProUGUI>();
-            if (tmp != null && tmp.font != mod.chineseTMPFont)
-                tmp.font = mod.chineseTMPFont;
-        }
-    }
-
-    [HarmonyPatch(typeof(SFS.UI.TextAdapter), "Text", MethodType.Setter)]
-    public class TextAdapter_TextSetter_Patch
-    {
-        [HarmonyPostfix]
-        static void Postfix(SFS.UI.TextAdapter __instance)
-        {
-            var mod = SFS_HAN_MOD.Instance;
-            if (mod?.chineseTMPFont == null) return;
-            var tmp = __instance.GetComponent<TextMeshProUGUI>();
             if (tmp != null && tmp.font != mod.chineseTMPFont)
                 tmp.font = mod.chineseTMPFont;
         }
