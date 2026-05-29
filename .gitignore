@@ -1,24 +1,26 @@
-# Rust
-/target/
-Cargo.lock
+# Build outputs
+dist/
+target/
+*.zip
+*.exe
+
+# Rust tool bundled MOD DLLs (built by CI from mod/ source)
+tool/rust/assets/SFS_HAN_MOD.dll
+tool/rust/assets/SFS_FontFix.dll
 
 # IDE
-.vscode/
 .idea/
+.vs/
+.vscode/
+*.swp
 *.suo
 *.user
+obj/
+bin/
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Build outputs
-SFS_HAN_MOD/SFS_HAN_MOD/bin/
-SFS_HAN_MOD/SFS_HAN_MOD/lib/
-SFS_HAN_MOD/SFS_HAN_MOD/obj/
-SFS_Language_TOOL/target/
-SFS_Language_TOOL/assets/
-
-# Release
-release/
-*.zip
+# Legacy BepInEx distribution binaries (reference only, not built)
+legacy/**/BepInEx_win_x64_5.4.23.5/
+legacy/**/*.dll
+legacy/**/*.ttf
+legacy/**/*.ttc
+legacy/**/SFS_FontFix.dll
