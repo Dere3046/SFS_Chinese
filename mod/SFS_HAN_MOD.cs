@@ -17,7 +17,7 @@ namespace SFS_HAN_MOD
         public override string ModNameID => "sfs_font_fix";
         public override string DisplayName => "SFS Font Fix";
         public override string Author => "Dere3046";
-        public override string ModVersion => "5.1.0";
+        public override string ModVersion => "6.1.0";
         public override string MinimumGameVersionNecessary => "1.5.9";
         public override string Description => "Fixes missing Chinese characters by replacing the normal font with Noto Sans SC";
 

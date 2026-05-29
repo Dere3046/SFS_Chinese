@@ -10,7 +10,7 @@ using UnityEngine.TextCore.LowLevel;
 
 namespace SFS_FontFix
 {
-    [BepInPlugin("com.sfs.fontfix", "SFS Font Fix", "5.1.0")]
+    [BepInPlugin("com.sfs.fontfix", "SFS Font Fix", "6.1.0")]
     public class FontFixPlugin : BaseUnityPlugin
     {
         public static FontFixPlugin Instance;
@@ -23,7 +23,7 @@ namespace SFS_FontFix
         private void Awake()
         {
             Instance = this;
-            Logger.LogInfo("SFS Font Fix v5.1.0 loaded");
+            Logger.LogInfo("SFS Font Fix v6.1.0 loaded");
             new Harmony("com.sfs.fontfix").PatchAll();
         }
 

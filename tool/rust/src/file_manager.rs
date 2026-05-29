@@ -12,7 +12,7 @@ pub struct LanguageSettings {
 pub struct FileManager;
 
 impl FileManager {
-    pub const MOD_VERSION: &str = "5.1.0";
+    pub const MOD_VERSION: &str = "6.1.0";
 
     pub fn is_mod_installed(game_dir: &Path) -> bool {
         let m = game_dir.join("Mods").join("SFS_HAN_MOD");
