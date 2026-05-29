@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, ttk, messagebox
 from pathlib import Path
+import sys, os
 # 配置文件
 config = {
      "Theme": "",
@@ -11,7 +12,7 @@ themes = {
         "bg": "#2b2b2b",
         "fg": "#ffffff",
         "button_bg": "#1E74C4",
-        "button_active_bg": "#1669B0", # 鼠标悬停时的颜色（可选）
+        "button_active_bg": "#1669B0",
     },
     "white": {
         "bg": "#bebebe",
@@ -21,9 +22,33 @@ themes = {
     }
 }
 
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+def fix_translation_colons(game_dir):
+    trans_dir = Path(game_dir) / "Spaceflight Simulator_Data" / "Custom Translations"
+    if not trans_dir.exists():
+        return
+    for f in trans_dir.iterdir():
+        if f.suffix != ".txt" or f.name in ("Example.txt", "READ_ME.txt"):
+            continue
+        text = f.read_text(encoding="utf-8")
+        if "：" not in text:
+            continue
+        fixed = []
+        for line in text.splitlines(keepends=True):
+            if line.startswith("#"):
+                fixed.append(line)
+            else:
+                fixed.append(line.replace("：", ":"))
+        f.write_text("".join(fixed), encoding="utf-8")
+        print(f"fix colon: {f.name}")
+
 def open_config():
     try:
-        with open("config.txt", "r", encoding="utf-8") as f:
+        with open(resource_path("config.txt"), "r", encoding="utf-8") as f:
                 line = f.readline()
                 config["Theme"] = line.strip() or "black"
                 
@@ -43,22 +68,19 @@ def open_config():
 
 def write_config():
     try:
-        with open("config.txt", "w", encoding="utf-8") as f:
+        with open(resource_path("config.txt"), "w", encoding="utf-8") as f:
             f.write(config["Theme"] + "\n" + config["GamePath"])
     except Exception:
         print("权限不足")
 
 open_config()
 
-# 获取当前主题配置
 current_theme_name = config.get("Theme", "black")
 theme = themes[current_theme_name]
 
-# 初始化变量
 button_normal_state = tk.NORMAL
 button_disabled_state = tk.DISABLED
 button_relief = tk.FLAT
-# 初始化窗口
 root = tk.Tk()
 root.title("SFS汉化工具")
 root.geometry("700x600")
@@ -66,7 +88,6 @@ root.minsize(700, 600)
 root.maxsize(700, 600)
 root.config(bg=theme["bg"])
 
-# 功能区
 class Features():
     """按钮等功能区"""
     def assign(self, number):
@@ -75,13 +96,13 @@ class Features():
              self.select_game()
     def select_game(self):
         """选择游戏根目录文件夹"""
-        # 打开选择目录文件夹
         game_dir = filedialog.askdirectory(title=r"选择游戏根目录(例如: \Steam..\游戏名)")
         if game_dir:
             print("游戏目录:" + game_dir)
             path = Path(game_dir) / "Spaceflight Simulator.exe"
             if path.is_file():
                   config["GamePath"] = game_dir
+                  fix_translation_colons(game_dir)
                   Button_select_gamepath.destroy()
                   Label_select_gamepath.destroy()
                   write_config()
@@ -91,11 +112,8 @@ class Features():
 
 features = Features()
 
-# 主题下拉菜单
 theme_var = tk.StringVar(value=current_theme_name)
 
-# 创建TK.OPTionmenu
-# 参数依次是: 父组件, 关联变量, 默认值, *选项列表
 theme_menu = tk.OptionMenu(
     root,
     theme_var,
@@ -107,7 +125,6 @@ theme_menu.config(
     highlightthickness=0
 )
 
-# 定义控件
 Button_select_gamepath = tk.Button(
      root, 
      text="手动选择游戏根目录（自动寻找功能开发ing..）", 
@@ -123,7 +140,6 @@ Label_select_gamepath = tk.Label(
      fg=theme["fg"]
 )
 
-#  UI界面 
 def GUI():  
     """ UI界面"""
     global Button_select_gamepath, Label_select_gamepath
