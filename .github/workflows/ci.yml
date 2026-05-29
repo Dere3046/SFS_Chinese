@@ -39,8 +39,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       - name: Python syntax check
-        run: python3 -c "import py_compile; py_compile.compile('tool/python/SFS_Chinese_Tool.py', doraise=True)"
+        run: python -c "import py_compile; py_compile.compile('tool/python/SFS_Chinese_Tool.py', doraise=True)"
 
   build-tool:
     needs: build-mod
