@@ -196,25 +196,22 @@ namespace SFS_HAN_MOD
         }
     }
 
-    [HarmonyPatch(typeof(SFS.World.LocationDrawer), "Update")]
-    public class LocationDrawer_Update_Patch
+    [HarmonyPatch(typeof(SFS.Translations.Loc), "SetLanguage")]
+    public class Loc_SetLanguage_Patch
     {
-        [HarmonyPrefix]
-        static void Prefix()
+        [HarmonyPostfix]
+        static void Postfix()
         {
-            FixColon(SFS.Translations.Loc.main?.Velocity_Horizontal);
-            FixColon(SFS.Translations.Loc.main?.Velocity_Vertical);
-            FixColon(SFS.Translations.Loc.main?.Height_Horizontal);
-            FixColon(SFS.Translations.Loc.main?.Height_Vertical);
-            FixColon(SFS.Translations.Loc.main?.Height_Terrain_Horizontal);
-            FixColon(SFS.Translations.Loc.main?.Height_Terrain_Vertical);
-        }
-
-        static void FixColon(SFS.Translations.Field f)
-        {
-            if (f?.subs == null) return;
-            if (f.subs.TryGetValue(0, out var v) && v.Contains("："))
-                f.subs[0] = v.Replace('：', ':');
+            foreach (var field in SFS.Translations.Loc.fields.Values)
+            {
+                if (field?.subs == null) continue;
+                for (int i = 0; ; i++)
+                {
+                    if (!field.subs.TryGetValue(i, out var v)) break;
+                    if (v != null && v.Contains("："))
+                        field.subs[i] = v.Replace('：', ':');
+                }
+            }
         }
     }
 }
